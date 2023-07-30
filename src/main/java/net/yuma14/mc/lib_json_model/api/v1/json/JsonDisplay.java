@@ -1,4 +1,4 @@
-package net.yuma14.mc.lib_json_model.v1.json;
+package net.yuma14.mc.lib_json_model.api.v1.json;
 
 public class JsonDisplay {
     public JsonTransform thirdperson_righthand;

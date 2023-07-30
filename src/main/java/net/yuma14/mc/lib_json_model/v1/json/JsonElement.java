@@ -1,9 +1,9 @@
 package net.yuma14.mc.lib_json_model.v1.json;
 
-public class Element {
+public class JsonElement {
     public double[] from;
     public double[] to;
-    public ElementRotation rotation;
+    public JsonElementRotation rotation;
     public boolean shade = true;
-    public Face faces;
+    public JsonFace faces;
 }

@@ -15,6 +15,11 @@ public abstract class SimpleBlockWithJsonModel extends Block implements IBlockWi
     }
 
     @Override
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
     public int getRenderType() {
         return ModLibJsonModel.SIMPLE_BLOCK_WITH_JSON_MODEL_RENDER_TYPE;
     }

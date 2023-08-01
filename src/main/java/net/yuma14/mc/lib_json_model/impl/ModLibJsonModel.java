@@ -6,6 +6,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.yuma14.mc.lib_json_model.api.v1.IBlockModel;
+import net.yuma14.mc.lib_json_model.impl.block.BlockDummy;
 import net.yuma14.mc.lib_json_model.impl.block.BlockTestSBRH;
 import net.yuma14.mc.lib_json_model.impl.proxy.CommonProxy;
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +20,8 @@ public class ModLibJsonModel {
     public static final String MOD_NAME = "LibJsonModel";
 
     public static int SIMPLE_BLOCK_WITH_JSON_MODEL_RENDER_TYPE;
+
+    public static final BlockDummy dummy = new BlockDummy();
     public static final BlockTestSBRH TEST_SBRH = new BlockTestSBRH();
     public static IBlockModel TEST_SBRH_MODEL;
 
@@ -34,6 +37,7 @@ public class ModLibJsonModel {
 
         proxy.registerJsonModels();
 
+        GameRegistry.registerBlock(dummy, "dummy");
         GameRegistry.registerBlock(TEST_SBRH, "test_sbrh");
         TEST_SBRH.setCreativeTab(CreativeTabs.tabBlock);
     }

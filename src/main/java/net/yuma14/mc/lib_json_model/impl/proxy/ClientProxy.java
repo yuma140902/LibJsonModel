@@ -5,6 +5,7 @@ import net.yuma14.mc.lib_json_model.api.v1.LibJsonModelApi;
 import net.yuma14.mc.lib_json_model.api.v1.IJsonModelMap;
 import net.yuma14.mc.lib_json_model.api.v1.client.IJsonModelRegistry;
 import net.yuma14.mc.lib_json_model.impl.ModLibJsonModel;
+import net.yuma14.mc.lib_json_model.impl.client.TextureRegistry;
 import net.yuma14.mc.lib_json_model.impl.render.BlockWithJsonModelRenderer;
 
 public class ClientProxy extends CommonProxy {
@@ -30,11 +31,11 @@ public class ClientProxy extends CommonProxy {
                 "      \"from\": [0, 0, 0],\n" +
                 "      \"to\": [16, 16, 8],\n" +
                 "      \"faces\": {\n" +
-                "        \"top\": {\n" +
+                "        \"up\": {\n" +
                 "          \"uv\": [0, 0, 16, 16],\n" +
                 "          \"texture\": \"#stone\"\n" +
                 "        },\n" +
-                "        \"bottom\": {\n" +
+                "        \"down\": {\n" +
                 "          \"texture\": \"#stone\"\n" +
                 "        },\n" +
                 "        \"north\": {\n" +
@@ -55,10 +56,10 @@ public class ClientProxy extends CommonProxy {
                 "      \"from\": [0, 0, 8],\n" +
                 "      \"to\": [16, 8, 16],\n" +
                 "      \"faces\": {\n" +
-                "        \"top\": {\n" +
+                "        \"up\": {\n" +
                 "          \"texture\": \"#wood\"\n" +
                 "        },\n" +
-                "        \"bottom\": {\n" +
+                "        \"down\": {\n" +
                 "          \"texture\": \"#wood\"\n" +
                 "        },\n" +
                 "        \"north\": {\n" +

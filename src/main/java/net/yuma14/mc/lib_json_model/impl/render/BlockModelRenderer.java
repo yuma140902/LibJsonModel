@@ -1,12 +1,15 @@
 package net.yuma14.mc.lib_json_model.impl.render;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.yuma14.mc.lib_json_model.impl.client.TextureRegistry;
 import net.yuma14.mc.lib_json_model.impl.math.CoordinateConverter;
 import net.yuma14.mc.lib_json_model.impl.math.Cuboid;
 import net.yuma14.mc.lib_json_model.impl.math.WCS;

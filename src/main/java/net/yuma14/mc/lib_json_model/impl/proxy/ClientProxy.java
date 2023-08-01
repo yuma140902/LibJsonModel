@@ -1,7 +1,7 @@
 package net.yuma14.mc.lib_json_model.impl.proxy;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import net.yuma14.mc.lib_json_model.impl.render.TestSimpleBlockRenderingHandler;
+import net.yuma14.mc.lib_json_model.impl.render.BlockWithJsonModelRenderer;
 
 public class ClientProxy extends CommonProxy {
     @Override
@@ -11,6 +11,6 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void registerRenderers() {
-        RenderingRegistry.registerBlockHandler(new TestSimpleBlockRenderingHandler());
+        RenderingRegistry.registerBlockHandler(new BlockWithJsonModelRenderer());
     }
 }

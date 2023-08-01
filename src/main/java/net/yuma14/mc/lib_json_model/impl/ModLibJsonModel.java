@@ -3,10 +3,8 @@ package net.yuma14.mc.lib_json_model.impl;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.yuma14.mc.lib_json_model.impl.block.BlockTestSBRH;
 import net.yuma14.mc.lib_json_model.impl.proxy.CommonProxy;
 
@@ -16,7 +14,7 @@ public class ModLibJsonModel {
     public static final String MOD_VERSION = "0.1.0";
     public static final String MOD_NAME = "LibJsonModel";
 
-    public static int testSBRHRenderId;
+    public static int SIMPLE_BLOCK_WITH_JSON_MODEL_RENDER_TYPE;
     public static final BlockTestSBRH TEST_SBRH = new BlockTestSBRH();
 
     @SidedProxy(modId = ModLibJsonModel.MOD_ID, clientSide = "net.yuma14.mc.lib_json_model.impl.proxy.ClientProxy", serverSide = "net.yuma14.mc.lib_json_model.impl.proxy.ServerProxy")
@@ -24,7 +22,8 @@ public class ModLibJsonModel {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        testSBRHRenderId = proxy.getNewRenderId();
+        SIMPLE_BLOCK_WITH_JSON_MODEL_RENDER_TYPE = proxy.getNewRenderId();
+        proxy.registerRenderers();
 
         GameRegistry.registerBlock(TEST_SBRH, "test_sbrh");
         TEST_SBRH.setCreativeTab(CreativeTabs.tabBlock);

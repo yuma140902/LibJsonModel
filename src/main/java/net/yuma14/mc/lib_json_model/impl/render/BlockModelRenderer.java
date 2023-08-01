@@ -17,12 +17,14 @@ import net.yuma14.mc.lib_json_model.impl.model.BlockModel;
 import net.yuma14.mc.lib_json_model.impl.model.Element;
 import net.yuma14.mc.lib_json_model.impl.util.WorldUtil;
 
+import java.util.Map;
+
 public class BlockModelRenderer {
     public static boolean renderBlockModel(BlockModel model, IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
         // TODO: 他のモード
         boolean renderedSomething = false;
         for(final Element element : model.elements) {
-            if(renderElementWithAmbientOcclusion(element, world, x, y, z, block, renderer)) {
+            if(renderElementWithAmbientOcclusion(element, model.texturesMap, world, x, y, z, block, renderer)) {
                 renderedSomething = true;
             }
         }
@@ -31,11 +33,12 @@ public class BlockModelRenderer {
 
     private static boolean shouldRenderFace(Face face, BlockPos pos, IBlockAccess world){
         if(face == null) return false;
+        if(face.texture == null) return false;
         if(face.cullFace == ForgeDirection.UNKNOWN) return true;
         return !WorldUtil.getBlock(world, pos.offset(face.cullFace)).isOpaqueCube();
     }
 
-    private static boolean renderElementWithAmbientOcclusion(Element element, IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
+    private static boolean renderElementWithAmbientOcclusion(Element element, Map<String, IIcon> texturesMap, IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
         int colorMultiplier = block.colorMultiplier(renderer.blockAccess, x, y, z);
         float colorR = (float) (colorMultiplier >> 16 & 255) / 255.0F;
         float colorG = (float) (colorMultiplier >> 8 & 255) / 255.0F;
@@ -167,8 +170,7 @@ public class BlockModelRenderer {
             renderer.colorRedTopRight *= f6;
             renderer.colorGreenTopRight *= f6;
             renderer.colorBlueTopRight *= f6;
-            renderBottomFace(element, x, y, z, renderer);
-            renderedSomething = true;
+            renderedSomething = renderBottomFace(element, texturesMap, x, y, z, renderer);
         }
 
         if (shouldRenderFace(element.getFace(McConst.SIDE_TOP), pos, renderer.blockAccess)) {
@@ -256,8 +258,7 @@ public class BlockModelRenderer {
             renderer.colorGreenTopRight *= f6;
             renderer.colorBlueTopRight *= f6;
 
-            renderTopFace(element, x, y, z, renderer);
-            renderedSomething = true;
+            renderedSomething = renderTopFace(element, texturesMap, x, y, z, renderer);
         }
 
         if (shouldRenderFace(element.getFace(McConst.SIDE_NORTH), pos, renderer.blockAccess)) {
@@ -353,8 +354,7 @@ public class BlockModelRenderer {
             renderer.colorGreenTopRight *= f6;
             renderer.colorBlueTopRight *= f6;
 
-            renderNorthFace(element, x, y, z, renderer);
-            renderedSomething = true;
+            renderedSomething = renderNorthFace(element, texturesMap, x, y, z, renderer);
         }
 
         if (shouldRenderFace(element.getFace(McConst.SIDE_SOUTH), pos, renderer.blockAccess)) {
@@ -450,8 +450,7 @@ public class BlockModelRenderer {
             renderer.colorGreenTopRight *= f6;
             renderer.colorBlueTopRight *= f6;
 
-            renderSouthFace(element, x, y, z, renderer);
-            renderedSomething = true;
+            renderedSomething = renderSouthFace(element, texturesMap, x, y, z, renderer);
         }
 
         if (shouldRenderFace(element.getFace(McConst.SIDE_WEST), pos, renderer.blockAccess)) {
@@ -547,8 +546,7 @@ public class BlockModelRenderer {
             renderer.colorGreenTopRight *= f6;
             renderer.colorBlueTopRight *= f6;
 
-            renderWestFace(element, x, y, z, renderer);
-            renderedSomething = true;
+            renderedSomething = renderWestFace(element, texturesMap, x, y, z, renderer);
         }
 
         if (shouldRenderFace(element.getFace(McConst.SIDE_EAST), pos, renderer.blockAccess)) {
@@ -644,8 +642,7 @@ public class BlockModelRenderer {
             renderer.colorGreenTopRight *= f6;
             renderer.colorBlueTopRight *= f6;
 
-            renderEastFace(element, x, y, z, renderer);
-            renderedSomething = true;
+            renderedSomething = renderEastFace(element, texturesMap, x, y, z, renderer);
         }
 
         renderer.enableAO = false;
@@ -653,11 +650,12 @@ public class BlockModelRenderer {
     }
 
     // -Y
-    private static void renderBottomFace(Element element, int x, int y, int z, RenderBlocks renderer) {
+    private static boolean renderBottomFace(Element element, Map<String, IIcon> texturesMap, int x, int y, int z, RenderBlocks renderer) {
         Tessellator tessellator = Tessellator.instance;
         Cuboid<WCS> cuboid = CoordinateConverter.BCStoWCS(element.cuboid, x, y, z);
         Face face = element.bottom;
-        IIcon icon = face.texture.icon;
+        IIcon icon = face.texture.getIcon(texturesMap);
+        if(icon == null) return false;
 
         double minU = icon.getInterpolatedU(face.minU);
         double maxU = icon.getInterpolatedU(face.maxU);
@@ -683,14 +681,17 @@ public class BlockModelRenderer {
             tessellator.addVertexWithUV(cuboid.to.x, cuboid.from.y, cuboid.from.z, maxU, minV);
             tessellator.addVertexWithUV(cuboid.to.x, cuboid.from.y, cuboid.to.z, maxU, maxV);
         }
+
+        return true;
     }
 
     // +Y
-    public static void renderTopFace(Element element, int x, int y, int z, RenderBlocks renderer) {
+    public static boolean renderTopFace(Element element, Map<String, IIcon> texturesMap, int x, int y, int z, RenderBlocks renderer) {
         Tessellator tessellator = Tessellator.instance;
         Cuboid<WCS> cuboid = CoordinateConverter.BCStoWCS(element.cuboid, x, y, z);
         Face face = element.top;
-        IIcon icon = face.texture.icon;
+        IIcon icon = face.texture.getIcon(texturesMap);
+        if(icon == null) return false;
 
         double minU = icon.getInterpolatedU(face.minU);
         double maxU = icon.getInterpolatedU(face.maxU);
@@ -716,14 +717,17 @@ public class BlockModelRenderer {
             tessellator.addVertexWithUV(cuboid.from.x, cuboid.to.y, cuboid.from.z, minU, minV);
             tessellator.addVertexWithUV(cuboid.from.x, cuboid.to.y, cuboid.to.z, minU, maxV);
         }
+
+        return true;
     }
 
     // -Z
-    private static void renderNorthFace(Element element, int x, int y, int z, RenderBlocks renderer) {
+    private static boolean renderNorthFace(Element element, Map<String, IIcon> texturesMap, int x, int y, int z, RenderBlocks renderer) {
         Tessellator tessellator = Tessellator.instance;
         Cuboid<WCS> cuboid = CoordinateConverter.BCStoWCS(element.cuboid, x, y, z);
         Face face = element.north;
-        IIcon icon = face.texture.icon;
+        IIcon icon = face.texture.getIcon(texturesMap);
+        if(icon == null) return false;
 
         double minU = icon.getInterpolatedU(face.minU);
         double maxU = icon.getInterpolatedU(face.maxU);
@@ -749,14 +753,17 @@ public class BlockModelRenderer {
             tessellator.addVertexWithUV(cuboid.to.x, cuboid.from.y, cuboid.from.z, minU, maxV);
             tessellator.addVertexWithUV(cuboid.from.x, cuboid.from.y, cuboid.from.z, maxU, maxV);
         }
+
+        return true;
     }
 
     // +Z
-    public static void renderSouthFace(Element element, int x, int y, int z, RenderBlocks renderer) {
+    public static boolean renderSouthFace(Element element, Map<String, IIcon> texturesMap, int x, int y, int z, RenderBlocks renderer) {
         Tessellator tessellator = Tessellator.instance;
         Cuboid<WCS> cuboid = CoordinateConverter.BCStoWCS(element.cuboid, x, y, z);
         Face face = element.south;
-        IIcon icon = face.texture.icon;
+        IIcon icon = face.texture.getIcon(texturesMap);
+        if(icon == null) return false;
 
         double minU = icon.getInterpolatedU(face.minU);
         double maxU = icon.getInterpolatedU(face.maxU);
@@ -782,14 +789,17 @@ public class BlockModelRenderer {
             tessellator.addVertexWithUV(cuboid.to.x, cuboid.from.y, cuboid.to.z, maxU, maxV);
             tessellator.addVertexWithUV(cuboid.to.x, cuboid.to.y, cuboid.to.z, maxU, minV);
         }
+
+        return true;
     }
 
     // -X
-    private static void renderWestFace(Element element, int x, int y, int z, RenderBlocks renderer) {
+    private static boolean renderWestFace(Element element, Map<String, IIcon> texturesMap, int x, int y, int z, RenderBlocks renderer) {
         Tessellator tessellator = Tessellator.instance;
         Cuboid<WCS> cuboid = CoordinateConverter.BCStoWCS(element.cuboid, x, y, z);
         Face face = element.west;
-        IIcon icon = face.texture.icon;
+        IIcon icon = face.texture.getIcon(texturesMap);
+        if(icon == null) return false;
 
         double minU = icon.getInterpolatedU(face.minU);
         double maxU = icon.getInterpolatedU(face.maxU);
@@ -815,14 +825,17 @@ public class BlockModelRenderer {
             tessellator.addVertexWithUV(cuboid.from.x, cuboid.from.y, cuboid.from.z, minU, maxV);
             tessellator.addVertexWithUV(cuboid.from.x, cuboid.from.y, cuboid.to.z, maxU, maxV);
         }
+
+        return true;
     }
 
     // +X
-    public static void renderEastFace(Element element, int x, int y, int z, RenderBlocks renderer) {
+    public static boolean renderEastFace(Element element, Map<String, IIcon> texturesMap, int x, int y, int z, RenderBlocks renderer) {
         Tessellator tessellator = Tessellator.instance;
         Cuboid<WCS> cuboid = CoordinateConverter.BCStoWCS(element.cuboid, x, y, z);
         Face face = element.east;
-        IIcon icon = face.texture.icon;
+        IIcon icon = face.texture.getIcon(texturesMap);
+        if(icon == null) return false;
 
         double minU = icon.getInterpolatedU(face.minU);
         double maxU = icon.getInterpolatedU(face.maxU);
@@ -848,5 +861,7 @@ public class BlockModelRenderer {
             tessellator.addVertexWithUV(cuboid.to.x, cuboid.to.y, cuboid.from.z, maxU, minV);
             tessellator.addVertexWithUV(cuboid.to.x, cuboid.to.y, cuboid.to.z, minU, minV);
         }
+
+        return true;
     }
 }

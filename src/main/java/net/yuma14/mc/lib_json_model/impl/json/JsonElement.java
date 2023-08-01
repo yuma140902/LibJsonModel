@@ -1,4 +1,4 @@
-package net.yuma14.mc.lib_json_model.api.v1.json;
+package net.yuma14.mc.lib_json_model.impl.json;
 
 import java.util.Map;
 

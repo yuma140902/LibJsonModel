@@ -10,4 +10,9 @@ public class ServerProxy extends CommonProxy {
     public void registerRenderers() {
         // nothing
     }
+
+    @Override
+    public void registerJsonModels() {
+        // nothing
+    }
 }

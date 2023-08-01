@@ -5,4 +5,9 @@ public class ServerProxy extends CommonProxy {
     public int getNewRenderId() {
         return -1;
     }
+
+    @Override
+    public void registerRenderers() {
+        // nothing
+    }
 }

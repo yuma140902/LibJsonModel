@@ -1,17 +1,22 @@
 package net.yuma14.mc.lib_json_model.impl.model;
 
-public class Face {
-    public final Vertex p0;
-    public final Vertex p1;
-    public final Vertex p2;
-    public final Vertex p3;
-    public final TextureId texture;
+import net.minecraftforge.common.util.ForgeDirection;
 
-    protected Face(Vertex p0, Vertex p1, Vertex p2, Vertex p3, TextureId texture) {
-        this.p0 = p0;
-        this.p1 = p1;
-        this.p2 = p2;
-        this.p3 = p3;
+public class Face {
+    public final double minU;
+    public final double minV;
+    public final double maxU;
+    public final double maxV;
+    public final TextureId texture;
+    public final ForgeDirection cullFace;
+
+    protected Face(double minU, double minV, double maxU, double maxV, TextureId texture, ForgeDirection cullFace) {
+        this.minU = minU;
+        this.minV = minV;
+        this.maxU = maxU;
+        this.maxV = maxV;
         this.texture = texture;
+        this.cullFace = cullFace;
     }
+
 }

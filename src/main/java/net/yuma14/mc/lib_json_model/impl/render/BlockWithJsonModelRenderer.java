@@ -5,7 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
 import net.yuma14.mc.lib_json_model.api.v1.IBlockWithJsonModel;
-import net.yuma14.mc.lib_json_model.api.v1.render.IBlockModel;
+import net.yuma14.mc.lib_json_model.api.v1.IBlockModel;
 import net.yuma14.mc.lib_json_model.impl.ModLibJsonModel;
 
 public class BlockWithJsonModelRenderer implements ISimpleBlockRenderingHandler {

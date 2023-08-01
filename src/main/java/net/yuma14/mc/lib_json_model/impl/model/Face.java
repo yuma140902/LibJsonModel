@@ -14,7 +14,7 @@ public class Face {
     public final ForgeDirection cullFace;
 
     // minU, minV, maxU, maxVの取る値は0.0～16.0
-    protected Face(double minU, double minV, double maxU, double maxV, TextureVariable texture, ForgeDirection cullFace) {
+    public Face(double minU, double minV, double maxU, double maxV, TextureVariable texture, ForgeDirection cullFace) {
         this.minU = minU;
         this.minV = minV;
         this.maxU = maxU;

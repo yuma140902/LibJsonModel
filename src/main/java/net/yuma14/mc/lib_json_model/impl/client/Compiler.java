@@ -1,20 +1,23 @@
-package net.yuma14.mc.lib_json_model.impl.model;
+package net.yuma14.mc.lib_json_model.impl.client;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.yuma14.mc.lib_json_model.api.v1.render.IBlockModel;
+import net.yuma14.mc.lib_json_model.api.v1.IBlockModel;
 import net.yuma14.mc.lib_json_model.impl.json.JsonBlockModel;
 import net.yuma14.mc.lib_json_model.impl.json.JsonElement;
 import net.yuma14.mc.lib_json_model.impl.json.JsonFace;
 import net.yuma14.mc.lib_json_model.impl.math.BCS;
 import net.yuma14.mc.lib_json_model.impl.math.Vec3;
-import net.yuma14.mc.lib_json_model.impl.registry.TextureRegistry;
+import net.yuma14.mc.lib_json_model.impl.model.*;
 import net.yuma14.mc.lib_json_model.impl.util.ArrayUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
+@SideOnly(Side.CLIENT)
 public class Compiler {
     public static final Logger LOGGER = LogManager.getLogger("LibJsonModel Compiler");
 

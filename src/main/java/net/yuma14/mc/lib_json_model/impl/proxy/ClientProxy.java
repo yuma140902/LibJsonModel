@@ -2,8 +2,8 @@ package net.yuma14.mc.lib_json_model.impl.proxy;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.yuma14.mc.lib_json_model.api.v1.LibJsonModelApi;
-import net.yuma14.mc.lib_json_model.api.v1.registry.IJsonModelMap;
-import net.yuma14.mc.lib_json_model.api.v1.registry.IJsonModelRegistry;
+import net.yuma14.mc.lib_json_model.api.v1.IJsonModelMap;
+import net.yuma14.mc.lib_json_model.api.v1.client.IJsonModelRegistry;
 import net.yuma14.mc.lib_json_model.impl.ModLibJsonModel;
 import net.yuma14.mc.lib_json_model.impl.render.BlockWithJsonModelRenderer;
 

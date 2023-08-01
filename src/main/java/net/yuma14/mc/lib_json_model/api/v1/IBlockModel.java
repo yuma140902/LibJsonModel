@@ -1,4 +1,4 @@
-package net.yuma14.mc.lib_json_model.api.v1.render;
+package net.yuma14.mc.lib_json_model.api.v1;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;

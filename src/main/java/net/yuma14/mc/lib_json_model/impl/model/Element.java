@@ -19,7 +19,7 @@ public class Element {
 
     public final Cuboid<BCS> cuboid;
 
-    protected Element(Vec3<BCS> from, Vec3<BCS> to, Face top, Face bottom, Face north, Face south, Face west, Face east) {
+    public Element(Vec3<BCS> from, Vec3<BCS> to, Face top, Face bottom, Face north, Face south, Face west, Face east) {
         this.top = top;
         this.bottom = bottom;
         this.north = north;

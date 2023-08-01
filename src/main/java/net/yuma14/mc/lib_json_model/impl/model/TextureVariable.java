@@ -15,7 +15,7 @@ public class TextureVariable {
 
     private final String textureVariableName;
     // TODO
-    protected TextureVariable(String textureVariableName){
+    public TextureVariable(String textureVariableName){
         this.textureVariableName = textureVariableName;
     }
 

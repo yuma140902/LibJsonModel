@@ -1,18 +1,20 @@
-package net.yuma14.mc.lib_json_model.impl.registry;
+package net.yuma14.mc.lib_json_model.impl.client;
 
 import com.google.gson.Gson;
 import cpw.mods.fml.common.ProgressManager;
-import net.yuma14.mc.lib_json_model.api.v1.registry.IJsonModelMap;
-import net.yuma14.mc.lib_json_model.api.v1.registry.IJsonModelRegistry;
-import net.yuma14.mc.lib_json_model.api.v1.render.IBlockModel;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.yuma14.mc.lib_json_model.api.v1.IJsonModelMap;
+import net.yuma14.mc.lib_json_model.api.v1.client.IJsonModelRegistry;
+import net.yuma14.mc.lib_json_model.api.v1.IBlockModel;
 import net.yuma14.mc.lib_json_model.impl.json.JsonBlockModel;
-import net.yuma14.mc.lib_json_model.impl.model.BlockModel;
-import net.yuma14.mc.lib_json_model.impl.model.Compiler;
 import net.yuma14.mc.lib_json_model.impl.model.PartialBlockModel;
+import net.yuma14.mc.lib_json_model.impl.registry.JsonModelMap;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@SideOnly(Side.CLIENT)
 public class JsonModelRegistry implements IJsonModelRegistry {
     private final Gson gson = new Gson();
     private final Map<String, String> map = new HashMap<>();

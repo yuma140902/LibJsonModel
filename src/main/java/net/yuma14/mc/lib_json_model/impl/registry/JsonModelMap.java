@@ -1,16 +1,15 @@
 package net.yuma14.mc.lib_json_model.impl.registry;
 
-import net.yuma14.mc.lib_json_model.api.v1.registry.IJsonModelMap;
-import net.yuma14.mc.lib_json_model.api.v1.render.IBlockModel;
+import net.yuma14.mc.lib_json_model.api.v1.IJsonModelMap;
+import net.yuma14.mc.lib_json_model.api.v1.IBlockModel;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class JsonModelMap implements IJsonModelMap {
 
     private final Map<String, ? extends IBlockModel> map;
 
-    protected JsonModelMap(Map<String, ? extends IBlockModel> map) {
+    public JsonModelMap(Map<String, ? extends IBlockModel> map) {
         this.map = map;
     }
 

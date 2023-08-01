@@ -1,4 +1,4 @@
-package net.yuma14.mc.lib_json_model.impl.registry;
+package net.yuma14.mc.lib_json_model.impl.client;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// TODO: 他のクラスにもSideOnlyをつける
 @SideOnly(Side.CLIENT)
 public class TextureRegistry {
     /**

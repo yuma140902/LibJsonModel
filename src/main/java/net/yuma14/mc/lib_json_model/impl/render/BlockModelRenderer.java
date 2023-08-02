@@ -1,29 +1,26 @@
 package net.yuma14.mc.lib_json_model.impl.render;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.yuma14.mc.lib_json_model.impl.client.TextureRegistry;
 import net.yuma14.mc.lib_json_model.impl.math.CoordinateConverter;
 import net.yuma14.mc.lib_json_model.impl.math.Cuboid;
 import net.yuma14.mc.lib_json_model.impl.math.WCS;
-import net.yuma14.mc.lib_json_model.impl.model.Face;
+import net.yuma14.mc.lib_json_model.impl.client.model.Face;
 import net.yuma14.mc.lib_json_model.impl.math.BlockPos;
 import net.yuma14.mc.lib_json_model.impl.util.McConst;
-import net.yuma14.mc.lib_json_model.impl.model.BlockModel;
-import net.yuma14.mc.lib_json_model.impl.model.Element;
+import net.yuma14.mc.lib_json_model.impl.client.model.ClientSideBlockModel;
+import net.yuma14.mc.lib_json_model.impl.client.model.Element;
 import net.yuma14.mc.lib_json_model.impl.util.WorldUtil;
 
 import java.util.Map;
 
 public class BlockModelRenderer {
-    public static boolean renderBlockModel(BlockModel model, IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
+    public static boolean renderBlockModel(ClientSideBlockModel model, IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
         // TODO: 他のモード
         boolean renderedSomething = false;
         for(final Element element : model.elements) {

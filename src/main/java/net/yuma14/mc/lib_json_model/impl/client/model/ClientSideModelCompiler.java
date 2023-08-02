@@ -1,16 +1,16 @@
-package net.yuma14.mc.lib_json_model.impl.client;
+package net.yuma14.mc.lib_json_model.impl.client.model;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.yuma14.mc.lib_json_model.api.v1.IBlockModel;
+import net.yuma14.mc.lib_json_model.impl.client.TextureRegistry;
 import net.yuma14.mc.lib_json_model.impl.json.JsonBlockModel;
 import net.yuma14.mc.lib_json_model.impl.json.JsonElement;
 import net.yuma14.mc.lib_json_model.impl.json.JsonFace;
 import net.yuma14.mc.lib_json_model.impl.math.BCS;
 import net.yuma14.mc.lib_json_model.impl.math.Vec3;
-import net.yuma14.mc.lib_json_model.impl.model.*;
 import net.yuma14.mc.lib_json_model.impl.util.ArrayUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.*;
 
 @SideOnly(Side.CLIENT)
-public class Compiler {
+public class ClientSideModelCompiler {
     public static final Logger LOGGER = LogManager.getLogger("LibJsonModel Compiler");
 
     public static PartialBlockModel compileJsonBlockModel(String modelName, JsonBlockModel model) {
@@ -123,9 +123,9 @@ public class Compiler {
     }
 
     public static Map<String, ? extends IBlockModel> mergeBlockModels(Map<String, PartialBlockModel> partialBlockModelMap) {
-        Map<String, BlockModel> completeBlockModels = new HashMap<>();
+        Map<String, ClientSideBlockModel> completeBlockModels = new HashMap<>();
         for(final String modelName : partialBlockModelMap.keySet()) {
-            BlockModel model = mergeBlockModel(completeBlockModels, partialBlockModelMap, modelName);
+            ClientSideBlockModel model = mergeBlockModel(completeBlockModels, partialBlockModelMap, modelName);
             if(model != null) {
                 completeBlockModels.put(modelName, model);
             }
@@ -133,7 +133,7 @@ public class Compiler {
         return completeBlockModels;
     }
 
-    public static BlockModel mergeBlockModel(Map<String, BlockModel> completeBlockModels, Map<String, PartialBlockModel> partialBlockModels, String modelName) {
+    public static ClientSideBlockModel mergeBlockModel(Map<String, ClientSideBlockModel> completeBlockModels, Map<String, PartialBlockModel> partialBlockModels, String modelName) {
         if(completeBlockModels.containsKey(modelName)) {
             return completeBlockModels.get(modelName);
         }
@@ -141,22 +141,22 @@ public class Compiler {
         if(modelName == null || modelName.isEmpty()) {
             PartialBlockModel partialBlockModel = partialBlockModels.get(modelName);
             if(partialBlockModel != null) {
-                return new BlockModel(partialBlockModel.elements, partialBlockModel.useAmbientOcclusion, partialBlockModel.texturesMap);
+                return new ClientSideBlockModel(partialBlockModel.elements, partialBlockModel.useAmbientOcclusion, partialBlockModel.texturesMap);
             }
             return null;
         }
 
         PartialBlockModel child = partialBlockModels.get(modelName);
         if(child == null) return null;
-        BlockModel parent = mergeBlockModel(completeBlockModels, partialBlockModels, child.parent);
+        ClientSideBlockModel parent = mergeBlockModel(completeBlockModels, partialBlockModels, child.parent);
         if(parent == null) {
-            return new BlockModel(child.elements, child.useAmbientOcclusion, child.texturesMap);
+            return new ClientSideBlockModel(child.elements, child.useAmbientOcclusion, child.texturesMap);
         }
         // merge textures
         Map<String, IIcon> texturesMap = new HashMap<>();
         texturesMap.putAll(parent.texturesMap);
         texturesMap.putAll(child.texturesMap);
         // we do not have to merge element list
-        return new BlockModel(child.elements, child.useAmbientOcclusion, texturesMap);
+        return new ClientSideBlockModel(child.elements, child.useAmbientOcclusion, texturesMap);
     }
 }

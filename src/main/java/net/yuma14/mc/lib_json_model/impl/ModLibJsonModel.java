@@ -6,6 +6,9 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.yuma14.mc.lib_json_model.api.v1.IBlockModel;
+import net.yuma14.mc.lib_json_model.api.v1.IJsonModelMap;
+import net.yuma14.mc.lib_json_model.api.v1.LibJsonModelApi;
+import net.yuma14.mc.lib_json_model.api.v1.IJsonModelRegistry;
 import net.yuma14.mc.lib_json_model.impl.block.BlockDummy;
 import net.yuma14.mc.lib_json_model.impl.block.BlockTestSBRH;
 import net.yuma14.mc.lib_json_model.impl.proxy.CommonProxy;
@@ -35,7 +38,67 @@ public class ModLibJsonModel {
         SIMPLE_BLOCK_WITH_JSON_MODEL_RENDER_TYPE = proxy.getNewRenderId();
         proxy.registerRenderers();
 
-        proxy.registerJsonModels();
+        String json = "{\n" +
+                "  \"textures\": {\n" +
+                "    \"stone\": \"minecraft:stone\",\n" +
+                "    \"wood\": \"minecraft:planks_oak\"\n" +
+                "  },\n" +
+                "  \"elements\": [\n" +
+                "    {\n" +
+                "      \"from\": [0, 0, 0],\n" +
+                "      \"to\": [16, 16, 8],\n" +
+                "      \"faces\": {\n" +
+                "        \"up\": {\n" +
+                "          \"uv\": [0, 0, 16, 16],\n" +
+                "          \"texture\": \"#stone\"\n" +
+                "        },\n" +
+                "        \"down\": {\n" +
+                "          \"texture\": \"#stone\"\n" +
+                "        },\n" +
+                "        \"north\": {\n" +
+                "          \"texture\": \"#stone\"\n" +
+                "        },\n" +
+                "        \"south\": {\n" +
+                "          \"texture\": \"#stone\"\n" +
+                "        },\n" +
+                "        \"west\": {\n" +
+                "          \"texture\": \"#stone\"\n" +
+                "        },\n" +
+                "        \"east\": {\n" +
+                "          \"texture\": \"#stone\"\n" +
+                "        }\n" +
+                "      }\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"from\": [0, 0, 8],\n" +
+                "      \"to\": [16, 8, 16],\n" +
+                "      \"faces\": {\n" +
+                "        \"up\": {\n" +
+                "          \"texture\": \"#wood\"\n" +
+                "        },\n" +
+                "        \"down\": {\n" +
+                "          \"texture\": \"#wood\"\n" +
+                "        },\n" +
+                "        \"north\": {\n" +
+                "          \"texture\": \"#wood\"\n" +
+                "        },\n" +
+                "        \"south\": {\n" +
+                "          \"texture\": \"#wood\"\n" +
+                "        },\n" +
+                "        \"west\": {\n" +
+                "          \"texture\": \"#wood\"\n" +
+                "        },\n" +
+                "        \"east\": {\n" +
+                "          \"texture\": \"#wood\"\n" +
+                "        }\n" +
+                "      }\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
+        IJsonModelRegistry jsonModelRegistry = LibJsonModelApi.INSTANCE.newModelRegistry();
+        jsonModelRegistry.register("test_sbrh", json);
+        IJsonModelMap jsonModelMap = jsonModelRegistry.compileAllModels();
+        ModLibJsonModel.TEST_SBRH_MODEL = jsonModelMap.getModel("test_sbrh");
 
         GameRegistry.registerBlock(dummy, "dummy");
         GameRegistry.registerBlock(TEST_SBRH, "test_sbrh");

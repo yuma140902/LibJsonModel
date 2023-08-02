@@ -1,10 +1,13 @@
-package net.yuma14.mc.lib_json_model.impl.model;
+package net.yuma14.mc.lib_json_model.impl.client.model;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.yuma14.mc.lib_json_model.impl.math.*;
 import net.yuma14.mc.lib_json_model.impl.util.McConst;
 
 import javax.annotation.Nullable;
 
+@SideOnly(Side.CLIENT)
 public class Element {
     public final Face top;
     public final Face bottom;
@@ -19,7 +22,7 @@ public class Element {
 
     public final Cuboid<BCS> cuboid;
 
-    public Element(Vec3<BCS> from, Vec3<BCS> to, Face top, Face bottom, Face north, Face south, Face west, Face east) {
+    protected Element(Vec3<BCS> from, Vec3<BCS> to, Face top, Face bottom, Face north, Face south, Face west, Face east) {
         this.top = top;
         this.bottom = bottom;
         this.north = north;

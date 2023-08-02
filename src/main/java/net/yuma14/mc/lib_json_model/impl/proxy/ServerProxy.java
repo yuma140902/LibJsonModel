@@ -1,5 +1,8 @@
 package net.yuma14.mc.lib_json_model.impl.proxy;
 
+import net.yuma14.mc.lib_json_model.api.v1.IJsonModelRegistry;
+import net.yuma14.mc.lib_json_model.impl.server.ServerSideJsonModelRegistry;
+
 public class ServerProxy extends CommonProxy {
     @Override
     public int getNewRenderId() {
@@ -12,7 +15,7 @@ public class ServerProxy extends CommonProxy {
     }
 
     @Override
-    public void registerJsonModels() {
-        // nothing
+    public IJsonModelRegistry newModelRegistry() {
+        return new ServerSideJsonModelRegistry();
     }
 }

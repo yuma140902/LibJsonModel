@@ -1,10 +1,12 @@
-package net.yuma14.mc.lib_json_model.impl.model;
+package net.yuma14.mc.lib_json_model.impl.client.model;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.IIcon;
 
-import java.util.Collections;
 import java.util.Map;
 
+@SideOnly(Side.CLIENT)
 public class TextureVariable {
     public static final TextureVariable EMPTY = new TextureVariable(null) {
         @Override
@@ -15,7 +17,7 @@ public class TextureVariable {
 
     private final String textureVariableName;
     // TODO
-    public TextureVariable(String textureVariableName){
+    protected TextureVariable(String textureVariableName){
         this.textureVariableName = textureVariableName;
     }
 

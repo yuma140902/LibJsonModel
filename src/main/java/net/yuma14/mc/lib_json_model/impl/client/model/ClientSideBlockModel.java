@@ -6,14 +6,17 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.yuma14.mc.lib_json_model.api.v1.IBlockModel;
+import net.yuma14.mc.lib_json_model.impl.math.BCS;
+import net.yuma14.mc.lib_json_model.impl.math.Cuboid;
+import net.yuma14.mc.lib_json_model.impl.model.BlockModelBase;
 import net.yuma14.mc.lib_json_model.impl.render.BlockModelRenderer;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @SideOnly(Side.CLIENT)
-public class ClientSideBlockModel implements IBlockModel {
+public class ClientSideBlockModel extends BlockModelBase {
     public final List<Element> elements;
     public final boolean useAmbientOcclusion;
     public final Map<String, IIcon> texturesMap;
@@ -37,5 +40,10 @@ public class ClientSideBlockModel implements IBlockModel {
     @Override
     public void renderTileEntity() {
         // TODO
+    }
+
+    @Override
+    protected Stream<Cuboid<BCS>> getCuboids() {
+        return elements.stream().map(element -> element.cuboid);
     }
 }

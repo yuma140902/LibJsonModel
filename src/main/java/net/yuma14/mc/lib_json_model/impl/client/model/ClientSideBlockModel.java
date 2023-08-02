@@ -43,7 +43,7 @@ public class ClientSideBlockModel extends BlockModelBase {
     }
 
     @Override
-    protected Stream<Cuboid<BCS>> getCuboids() {
+    public Stream<Cuboid<BCS>> getCuboids() {
         return elements.stream().map(element -> element.cuboid);
     }
 }

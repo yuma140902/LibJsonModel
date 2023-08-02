@@ -15,6 +15,11 @@ public class ServerProxy extends CommonProxy {
     }
 
     @Override
+    public void registerEventHandlers() {
+        // nothing
+    }
+
+    @Override
     public IJsonModelRegistry newModelRegistry() {
         return new ServerSideJsonModelRegistry();
     }

@@ -2,13 +2,11 @@ package net.yuma14.mc.lib_json_model.impl.model;
 
 import net.minecraft.util.AxisAlignedBB;
 import net.yuma14.mc.lib_json_model.api.v1.IBlockModel;
-import net.yuma14.mc.lib_json_model.impl.math.BCS;
 import net.yuma14.mc.lib_json_model.impl.math.CoordinateConverter;
 import net.yuma14.mc.lib_json_model.impl.math.Cuboid;
 import net.yuma14.mc.lib_json_model.impl.math.WCS;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public abstract class BlockModelBase implements IBlockModel {
     @Override
@@ -25,6 +23,4 @@ public abstract class BlockModelBase implements IBlockModel {
             }
         });
     }
-
-    protected abstract Stream<Cuboid<BCS>> getCuboids();
 }

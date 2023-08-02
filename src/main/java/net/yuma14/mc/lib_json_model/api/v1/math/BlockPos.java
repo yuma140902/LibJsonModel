@@ -2,6 +2,9 @@ package net.yuma14.mc.lib_json_model.api.v1.math;
 
 import net.minecraftforge.common.util.ForgeDirection;
 
+/**
+ * Represents the position of a block in the world
+ */
 public class BlockPos {
     protected final int x;
     protected final int y;
@@ -13,6 +16,9 @@ public class BlockPos {
         this.z = z;
     }
 
+    /**
+     * Creates a new instance that moved by the specified distance in the specified direction.
+     */
     public BlockPos offset(ForgeDirection direction, int distance) {
         return new BlockPos(
                 x + direction.offsetX * distance,
@@ -21,6 +27,9 @@ public class BlockPos {
         );
     }
 
+    /**
+     * Creates a new instance moved by distance 1 in the specified direction.
+     */
     public BlockPos offset(ForgeDirection direction) {
         return offset(direction, 1);
     }

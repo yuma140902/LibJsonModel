@@ -1,6 +1,12 @@
 package net.yuma14.mc.lib_json_model.api.v1.math;
 
 // C: coordinate system
+
+/**
+ * Represents a 3D vector in the specified coordinate system
+ *
+ * @param <C> coordinate system. Usually {@link BCS} or {@link WCS}
+ */
 public class Vec3<C> {
     protected final double x;
     protected final double y;
@@ -13,7 +19,7 @@ public class Vec3<C> {
         this.z = z;
     }
 
-    public static <C> boolean almostEqual(Vec3<C> a, Vec3<C> b) {
+    protected static <C> boolean almostEqual(Vec3<C> a, Vec3<C> b) {
         if (a == null || b == null) return false;
 
         final double eps = 1e-6;

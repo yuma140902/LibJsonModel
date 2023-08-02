@@ -1,5 +1,8 @@
 package net.yuma14.mc.lib_json_model.api.v1.math;
 
+/**
+ * Converts two coordinate systems {@link WCS} and {@link BCS}.
+ */
 public class CoordinateConverter {
     public static Vec3<WCS> BCStoWCS(Vec3<BCS> v, BlockPos p) {
         return BCStoWCS(v, p.x, p.y, p.z);

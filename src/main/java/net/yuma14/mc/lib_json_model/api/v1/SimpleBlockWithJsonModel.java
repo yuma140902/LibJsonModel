@@ -9,6 +9,9 @@ import net.yuma14.mc.lib_json_model.impl.ModLibJsonModel;
 
 import java.util.List;
 
+/**
+ * Abstract class that implements {@link IBlockWithJsonModel}. Normally this should be used instead of the interface.
+ */
 public abstract class SimpleBlockWithJsonModel extends Block implements IBlockWithJsonModel {
     public SimpleBlockWithJsonModel(Material material) {
         super(material);

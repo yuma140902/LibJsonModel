@@ -31,12 +31,26 @@ public interface IBlockModel {
 
     Stream<Cuboid<BCS>> getCuboids();
 
-    // for ISimpleBlockRenderingHandler
+    /**
+     * Used to render models in inventory by classes that implement the ISimpleBlockRenderingHandler
+     */
     void renderInventoryBlock();
 
-    // for ISimpleBlockRenderingHandler
+    /**
+     * Used to render models in the world by classes that implement the ISimpleBlockRenderingHandler
+     *
+     * @param world
+     * @param x
+     * @param y
+     * @param z
+     * @param block
+     * @param renderer
+     * @return true if something was drawn, false if nothing was drawn
+     */
     boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer);
 
-    // for TileEntitySpecialRenderer
+    /**
+     * Used to render models in the world by TileEntitySpecialRenderer
+     */
     void renderTileEntity();
 }

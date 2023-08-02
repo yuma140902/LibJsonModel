@@ -2,7 +2,9 @@ package net.yuma14.mc.lib_json_model.impl.client.model;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.yuma14.mc.lib_json_model.impl.math.*;
+import net.yuma14.mc.lib_json_model.api.v1.math.BCS;
+import net.yuma14.mc.lib_json_model.api.v1.math.Cuboid;
+import net.yuma14.mc.lib_json_model.api.v1.math.Vec3;
 import net.yuma14.mc.lib_json_model.impl.util.McConst;
 
 import javax.annotation.Nullable;
@@ -36,13 +38,20 @@ public class Element {
     @Nullable
     public Face getFace(int side) {
         switch (side) {
-            case McConst.SIDE_TOP: return top;
-            case McConst.SIDE_BOTTOM: return bottom;
-            case McConst.SIDE_NORTH: return north;
-            case McConst.SIDE_SOUTH: return south;
-            case McConst.SIDE_WEST: return west;
-            case McConst.SIDE_EAST: return east;
-            default: return null;
+            case McConst.SIDE_TOP:
+                return top;
+            case McConst.SIDE_BOTTOM:
+                return bottom;
+            case McConst.SIDE_NORTH:
+                return north;
+            case McConst.SIDE_SOUTH:
+                return south;
+            case McConst.SIDE_WEST:
+                return west;
+            case McConst.SIDE_EAST:
+                return east;
+            default:
+                return null;
         }
     }
 }

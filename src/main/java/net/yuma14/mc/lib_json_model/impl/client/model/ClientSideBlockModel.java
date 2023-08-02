@@ -6,8 +6,8 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.yuma14.mc.lib_json_model.impl.math.BCS;
-import net.yuma14.mc.lib_json_model.impl.math.Cuboid;
+import net.yuma14.mc.lib_json_model.api.v1.math.BCS;
+import net.yuma14.mc.lib_json_model.api.v1.math.Cuboid;
 import net.yuma14.mc.lib_json_model.impl.model.BlockModelBase;
 import net.yuma14.mc.lib_json_model.impl.render.BlockModelRenderer;
 

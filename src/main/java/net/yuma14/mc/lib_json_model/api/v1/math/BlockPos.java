@@ -1,11 +1,11 @@
-package net.yuma14.mc.lib_json_model.impl.math;
+package net.yuma14.mc.lib_json_model.api.v1.math;
 
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockPos {
-    public final int x;
-    public final int y;
-    public final int z;
+    protected final int x;
+    protected final int y;
+    protected final int z;
 
     public BlockPos(int x, int y, int z) {
         this.x = x;
@@ -23,6 +23,18 @@ public class BlockPos {
 
     public BlockPos offset(ForgeDirection direction) {
         return offset(direction, 1);
+    }
+
+    public int x() {
+        return x;
+    }
+
+    public int y() {
+        return y;
+    }
+
+    public int z() {
+        return z;
     }
 
     @Override

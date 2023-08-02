@@ -1,4 +1,4 @@
-package net.yuma14.mc.lib_json_model.impl.math;
+package net.yuma14.mc.lib_json_model.api.v1.math;
 
 /// Block Coordinate System
 ///

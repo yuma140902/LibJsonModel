@@ -5,17 +5,20 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.yuma14.mc.lib_json_model.api.v1.IBlockModel;
+import net.yuma14.mc.lib_json_model.api.v1.math.BCS;
+import net.yuma14.mc.lib_json_model.api.v1.math.Vec3;
 import net.yuma14.mc.lib_json_model.impl.client.TextureRegistry;
 import net.yuma14.mc.lib_json_model.impl.json.JsonBlockModel;
 import net.yuma14.mc.lib_json_model.impl.json.JsonElement;
 import net.yuma14.mc.lib_json_model.impl.json.JsonFace;
-import net.yuma14.mc.lib_json_model.impl.math.BCS;
-import net.yuma14.mc.lib_json_model.impl.math.Vec3;
 import net.yuma14.mc.lib_json_model.impl.util.ArrayUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class ClientSideModelCompiler {
@@ -25,13 +28,13 @@ public class ClientSideModelCompiler {
         // TODO
 
         LOGGER.warn("[{}]: \"ambientocclusion\" is not supported for now.", modelName);
-        if(model.display != null) {
+        if (model.display != null) {
             LOGGER.warn("[{}]: \"display\" is not supported for now.", modelName);
         }
 
         // register textures
         Map<String, IIcon> texturesMap = new HashMap<>();
-        for(final Map.Entry<String, String> entry : model.textures.entrySet()) {
+        for (final Map.Entry<String, String> entry : model.textures.entrySet()) {
             String variableName = entry.getKey();
             String textureName = entry.getValue();
             IIcon icon = TextureRegistry.registerBlockTextureToGame(textureName);
@@ -40,7 +43,7 @@ public class ClientSideModelCompiler {
 
         // compile elements
         List<Element> elementList = new ArrayList<>();
-        for(final JsonElement jsonElement : model.elements) {
+        for (final JsonElement jsonElement : model.elements) {
             Element element = compileJsonElement(modelName, jsonElement, texturesMap);
             elementList.add(element);
         }
@@ -50,7 +53,7 @@ public class ClientSideModelCompiler {
 
     private static Element compileJsonElement(String modelName, JsonElement element, Map<String, IIcon> texturesMap) {
         LOGGER.warn("[{}]: \"elements/shade\" is not supported for now.", modelName);
-        if(element.rotation != null) {
+        if (element.rotation != null) {
             LOGGER.warn("[{}]: \"elements/rotation\" is not supported for now.", modelName);
         }
         double fromX = ArrayUtil.getAtOr0(element.from, 0) / 16.0;
@@ -72,11 +75,11 @@ public class ClientSideModelCompiler {
     }
 
     private static Face compileJsonFace(String modelName, JsonFace face, Map<String, IIcon> texturesMap) {
-        if(face == null) return Face.EMPTY;
-        if(face.rotation != 0) {
+        if (face == null) return Face.EMPTY;
+        if (face.rotation != 0) {
             LOGGER.warn("[{}]: \"rotation\" is not supported for now.", modelName);
         }
-        if(face.tintindex != 0) {
+        if (face.tintindex != 0) {
             LOGGER.warn("[{}]: \"tintindex\" is not supported for now.", modelName);
         }
 
@@ -85,11 +88,10 @@ public class ClientSideModelCompiler {
         double maxU = ArrayUtil.getAtOr(face.uv, 2, 16.0);
         double maxV = ArrayUtil.getAtOr(face.uv, 3, 16.0);
         TextureVariable textureVariable;
-        if(face.texture != null && face.texture.length() >= 1) {
+        if (face.texture != null && face.texture.length() >= 1) {
             String textureVariableName = face.texture.substring(1);
             textureVariable = new TextureVariable(textureVariableName);
-        }
-        else {
+        } else {
             textureVariable = TextureVariable.EMPTY;
         }
         ForgeDirection cullFace = parseCullFace(modelName, face.cullface);
@@ -97,25 +99,19 @@ public class ClientSideModelCompiler {
     }
 
     private static ForgeDirection parseCullFace(String modelName, String cullFace) {
-        if(cullFace == null || cullFace.isEmpty()) {
+        if (cullFace == null || cullFace.isEmpty()) {
             return ForgeDirection.UNKNOWN;
-        }
-        else if("down".equals(cullFace)) {
+        } else if ("down".equals(cullFace)) {
             return ForgeDirection.DOWN;
-        }
-        else if("up".equals(cullFace)) {
+        } else if ("up".equals(cullFace)) {
             return ForgeDirection.UP;
-        }
-        else if("north".equals(cullFace)) {
+        } else if ("north".equals(cullFace)) {
             return ForgeDirection.NORTH;
-        }
-        else if("south".equals(cullFace)) {
+        } else if ("south".equals(cullFace)) {
             return ForgeDirection.SOUTH;
-        }
-        else if("west".equals(cullFace)) {
+        } else if ("west".equals(cullFace)) {
             return ForgeDirection.WEST;
-        }
-        else if("east".equals(cullFace)) {
+        } else if ("east".equals(cullFace)) {
             return ForgeDirection.EAST;
         }
         LOGGER.warn("[{}]: \"cullface\" has invalid value \"{}\"", modelName, cullFace);
@@ -124,9 +120,9 @@ public class ClientSideModelCompiler {
 
     public static Map<String, ? extends IBlockModel> mergeBlockModels(Map<String, PartialBlockModel> partialBlockModelMap) {
         Map<String, ClientSideBlockModel> completeBlockModels = new HashMap<>();
-        for(final String modelName : partialBlockModelMap.keySet()) {
+        for (final String modelName : partialBlockModelMap.keySet()) {
             ClientSideBlockModel model = mergeBlockModel(completeBlockModels, partialBlockModelMap, modelName);
-            if(model != null) {
+            if (model != null) {
                 completeBlockModels.put(modelName, model);
             }
         }
@@ -134,22 +130,22 @@ public class ClientSideModelCompiler {
     }
 
     public static ClientSideBlockModel mergeBlockModel(Map<String, ClientSideBlockModel> completeBlockModels, Map<String, PartialBlockModel> partialBlockModels, String modelName) {
-        if(completeBlockModels.containsKey(modelName)) {
+        if (completeBlockModels.containsKey(modelName)) {
             return completeBlockModels.get(modelName);
         }
 
-        if(modelName == null || modelName.isEmpty()) {
+        if (modelName == null || modelName.isEmpty()) {
             PartialBlockModel partialBlockModel = partialBlockModels.get(modelName);
-            if(partialBlockModel != null) {
+            if (partialBlockModel != null) {
                 return new ClientSideBlockModel(partialBlockModel.elements, partialBlockModel.useAmbientOcclusion, partialBlockModel.texturesMap);
             }
             return null;
         }
 
         PartialBlockModel child = partialBlockModels.get(modelName);
-        if(child == null) return null;
+        if (child == null) return null;
         ClientSideBlockModel parent = mergeBlockModel(completeBlockModels, partialBlockModels, child.parent);
-        if(parent == null) {
+        if (parent == null) {
             return new ClientSideBlockModel(child.elements, child.useAmbientOcclusion, child.texturesMap);
         }
         // merge textures

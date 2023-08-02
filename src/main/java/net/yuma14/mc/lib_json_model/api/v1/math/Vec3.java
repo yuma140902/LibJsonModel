@@ -1,10 +1,10 @@
-package net.yuma14.mc.lib_json_model.impl.math;
+package net.yuma14.mc.lib_json_model.api.v1.math;
 
 // C: coordinate system
 public class Vec3<C> {
-    public final double x;
-    public final double y;
-    public final double z;
+    protected final double x;
+    protected final double y;
+    protected final double z;
 
 
     public Vec3(double x, double y, double z) {
@@ -13,8 +13,38 @@ public class Vec3<C> {
         this.z = z;
     }
 
+    public static <C> boolean almostEqual(Vec3<C> a, Vec3<C> b) {
+        if (a == null || b == null) return false;
+
+        final double eps = 1e-6;
+        return almostEqual(a.x, b.x, eps) && almostEqual(a.y, b.y, eps) && almostEqual(a.z, b.z, eps);
+    }
+
+    private static boolean almostEqual(double a, double b, double eps) {
+        double magnitude;
+        if (a == 0.0) {
+            magnitude = 1.0;
+        } else {
+            magnitude = a;
+        }
+
+        return Math.abs((a - b) / magnitude) <= eps;
+    }
+
+    public double x() {
+        return x;
+    }
+
+    public double y() {
+        return y;
+    }
+
+    public double z() {
+        return z;
+    }
+
     public double length() {
-        return Math.sqrt(x*2 + y*2 + z*2);
+        return Math.sqrt(x * 2 + y * 2 + z * 2);
     }
 
     public Vec3<C> normalized() {
@@ -32,25 +62,6 @@ public class Vec3<C> {
         double y = a.z * b.x - a.x * b.z;
         double z = a.x * b.y - a.y * b.x;
         return new Vec3<>(x, y, z);
-    }
-
-    public static <C> boolean almostEqual(Vec3<C> a, Vec3<C> b) {
-        if(a == null || b == null) return false;
-
-        final double eps = 1e-6;
-        return almostEqual(a.x, b.x, eps) && almostEqual(a.y, b.y, eps) && almostEqual(a.z, b.z, eps);
-    }
-
-    private static boolean almostEqual(double a, double b, double eps) {
-        double magnitude;
-        if(a == 0.0) {
-            magnitude = 1.0;
-        }
-        else {
-            magnitude = a;
-        }
-
-        return Math.abs((a-b) / magnitude) <= eps;
     }
 
     @Override

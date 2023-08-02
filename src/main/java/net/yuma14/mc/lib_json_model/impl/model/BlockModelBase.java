@@ -2,9 +2,9 @@ package net.yuma14.mc.lib_json_model.impl.model;
 
 import net.minecraft.util.AxisAlignedBB;
 import net.yuma14.mc.lib_json_model.api.v1.IBlockModel;
-import net.yuma14.mc.lib_json_model.impl.math.CoordinateConverter;
-import net.yuma14.mc.lib_json_model.impl.math.Cuboid;
-import net.yuma14.mc.lib_json_model.impl.math.WCS;
+import net.yuma14.mc.lib_json_model.api.v1.math.CoordinateConverter;
+import net.yuma14.mc.lib_json_model.api.v1.math.Cuboid;
+import net.yuma14.mc.lib_json_model.api.v1.math.WCS;
 
 import java.util.List;
 

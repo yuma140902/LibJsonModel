@@ -3,11 +3,11 @@ package net.yuma14.mc.lib_json_model.impl.server.model;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.yuma14.mc.lib_json_model.api.v1.math.BCS;
+import net.yuma14.mc.lib_json_model.api.v1.math.Cuboid;
+import net.yuma14.mc.lib_json_model.api.v1.math.Vec3;
 import net.yuma14.mc.lib_json_model.impl.json.JsonBlockModel;
 import net.yuma14.mc.lib_json_model.impl.json.JsonElement;
-import net.yuma14.mc.lib_json_model.impl.math.BCS;
-import net.yuma14.mc.lib_json_model.impl.math.Cuboid;
-import net.yuma14.mc.lib_json_model.impl.math.Vec3;
 import net.yuma14.mc.lib_json_model.impl.util.ArrayUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +21,7 @@ public class ServerSideModelCompiler {
 
     public static ServerSideBlockModel compileJsonBlockModel(String modelName, JsonBlockModel model) {
         List<Cuboid<BCS>> cuboids = new ArrayList<>();
-        for(final JsonElement jsonElement : model.elements) {
+        for (final JsonElement jsonElement : model.elements) {
             Cuboid<BCS> cuboid = compileJsonElement(modelName, jsonElement);
             cuboids.add(cuboid);
         }
@@ -29,7 +29,7 @@ public class ServerSideModelCompiler {
     }
 
     private static Cuboid<BCS> compileJsonElement(String modelName, JsonElement element) {
-        if(element.rotation != null) {
+        if (element.rotation != null) {
             LOGGER.warn("[{}]: \"elements/rotation\" is not supported for now.", modelName);
         }
         double fromX = ArrayUtil.getAtOr0(element.from, 0) / 16.0;

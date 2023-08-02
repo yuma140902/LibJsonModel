@@ -7,14 +7,14 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.yuma14.mc.lib_json_model.impl.math.CoordinateConverter;
-import net.yuma14.mc.lib_json_model.impl.math.Cuboid;
-import net.yuma14.mc.lib_json_model.impl.math.WCS;
-import net.yuma14.mc.lib_json_model.impl.client.model.Face;
-import net.yuma14.mc.lib_json_model.impl.math.BlockPos;
-import net.yuma14.mc.lib_json_model.impl.util.McConst;
+import net.yuma14.mc.lib_json_model.api.v1.math.BlockPos;
+import net.yuma14.mc.lib_json_model.api.v1.math.CoordinateConverter;
+import net.yuma14.mc.lib_json_model.api.v1.math.Cuboid;
+import net.yuma14.mc.lib_json_model.api.v1.math.WCS;
 import net.yuma14.mc.lib_json_model.impl.client.model.ClientSideBlockModel;
 import net.yuma14.mc.lib_json_model.impl.client.model.Element;
+import net.yuma14.mc.lib_json_model.impl.client.model.Face;
+import net.yuma14.mc.lib_json_model.impl.util.McConst;
 import net.yuma14.mc.lib_json_model.impl.util.WorldUtil;
 
 import java.util.Map;
@@ -23,18 +23,18 @@ public class BlockModelRenderer {
     public static boolean renderBlockModel(ClientSideBlockModel model, IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer) {
         // TODO: 他のモード
         boolean renderedSomething = false;
-        for(final Element element : model.elements) {
-            if(renderElementWithAmbientOcclusion(element, model.texturesMap, world, x, y, z, block, renderer)) {
+        for (final Element element : model.elements) {
+            if (renderElementWithAmbientOcclusion(element, model.texturesMap, world, x, y, z, block, renderer)) {
                 renderedSomething = true;
             }
         }
         return renderedSomething;
     }
 
-    private static boolean shouldRenderFace(Face face, BlockPos pos, IBlockAccess world){
-        if(face == null) return false;
-        if(face.texture == null) return false;
-        if(face.cullFace == ForgeDirection.UNKNOWN) return true;
+    private static boolean shouldRenderFace(Face face, BlockPos pos, IBlockAccess world) {
+        if (face == null) return false;
+        if (face.texture == null) return false;
+        if (face.cullFace == ForgeDirection.UNKNOWN) return true;
         return !WorldUtil.getBlock(world, pos.offset(face.cullFace)).isOpaqueCube();
     }
 
@@ -79,7 +79,7 @@ public class BlockModelRenderer {
         BlockPos pos = new BlockPos(x, y, z);
 
         if (shouldRenderFace(element.getFace(McConst.SIDE_BOTTOM), pos, renderer.blockAccess)) {
-            if (element.cuboid.from.y <= 0) {
+            if (element.cuboid.from().y() <= 0) {
                 --y;
             }
 
@@ -128,13 +128,13 @@ public class BlockModelRenderer {
                 renderer.aoBrightnessXYZPNP = block.getMixedBrightnessForBlock(renderer.blockAccess, x + 1, y, z + 1);
             }
 
-            if (element.cuboid.from.y <= 0.0D) {
+            if (element.cuboid.from().y() <= 0.0D) {
                 ++y;
             }
 
             int mixedBrightnessForBottom = mixedBrightness;
 
-            if (element.cuboid.from.y <= 0.0D || !renderer.blockAccess.getBlock(x, y - 1, z).isOpaqueCube()) {
+            if (element.cuboid.from().y() <= 0.0D || !renderer.blockAccess.getBlock(x, y - 1, z).isOpaqueCube()) {
                 mixedBrightnessForBottom = block.getMixedBrightnessForBlock(renderer.blockAccess, x, y - 1, z);
             }
 
@@ -174,7 +174,7 @@ public class BlockModelRenderer {
         }
 
         if (shouldRenderFace(element.getFace(McConst.SIDE_TOP), pos, renderer.blockAccess)) {
-            if (element.cuboid.to.y >= 1.0) {
+            if (element.cuboid.to().y() >= 1.0) {
                 ++y;
             }
 
@@ -223,13 +223,13 @@ public class BlockModelRenderer {
                 renderer.aoBrightnessXYZPPP = block.getMixedBrightnessForBlock(renderer.blockAccess, x + 1, y, z + 1);
             }
 
-            if (element.cuboid.to.y >= 1.0) {
+            if (element.cuboid.to().y() >= 1.0) {
                 --y;
             }
 
             i1 = mixedBrightness;
 
-            if (element.cuboid.to.y >= 1.0 || !renderer.blockAccess.getBlock(x, y + 1, z).isOpaqueCube()) {
+            if (element.cuboid.to().y() >= 1.0 || !renderer.blockAccess.getBlock(x, y + 1, z).isOpaqueCube()) {
                 i1 = block.getMixedBrightnessForBlock(renderer.blockAccess, x, y + 1, z);
             }
 
@@ -262,7 +262,7 @@ public class BlockModelRenderer {
         }
 
         if (shouldRenderFace(element.getFace(McConst.SIDE_NORTH), pos, renderer.blockAccess)) {
-            if (element.cuboid.from.z <= 0) {
+            if (element.cuboid.from().z() <= 0) {
                 --z;
             }
 
@@ -311,13 +311,13 @@ public class BlockModelRenderer {
                 renderer.aoBrightnessXYZPPN = block.getMixedBrightnessForBlock(renderer.blockAccess, x + 1, y + 1, z);
             }
 
-            if (element.cuboid.from.z <= 0) {
+            if (element.cuboid.from().z() <= 0) {
                 ++z;
             }
 
             i1 = mixedBrightness;
 
-            if (element.cuboid.from.z <= 0 || !renderer.blockAccess.getBlock(x, y, z - 1).isOpaqueCube()) {
+            if (element.cuboid.from().z() <= 0 || !renderer.blockAccess.getBlock(x, y, z - 1).isOpaqueCube()) {
                 i1 = block.getMixedBrightnessForBlock(renderer.blockAccess, x, y, z - 1);
             }
 
@@ -358,7 +358,7 @@ public class BlockModelRenderer {
         }
 
         if (shouldRenderFace(element.getFace(McConst.SIDE_SOUTH), pos, renderer.blockAccess)) {
-            if (element.cuboid.to.z >= 1.0) {
+            if (element.cuboid.to().z() >= 1.0) {
                 ++z;
             }
 
@@ -407,13 +407,13 @@ public class BlockModelRenderer {
                 renderer.aoBrightnessXYZPPP = block.getMixedBrightnessForBlock(renderer.blockAccess, x + 1, y + 1, z);
             }
 
-            if (element.cuboid.to.z >= 1.0) {
+            if (element.cuboid.to().z() >= 1.0) {
                 --z;
             }
 
             i1 = mixedBrightness;
 
-            if (element.cuboid.to.z >= 1.0 || !renderer.blockAccess.getBlock(x, y, z + 1).isOpaqueCube()) {
+            if (element.cuboid.to().z() >= 1.0 || !renderer.blockAccess.getBlock(x, y, z + 1).isOpaqueCube()) {
                 i1 = block.getMixedBrightnessForBlock(renderer.blockAccess, x, y, z + 1);
             }
 
@@ -454,7 +454,7 @@ public class BlockModelRenderer {
         }
 
         if (shouldRenderFace(element.getFace(McConst.SIDE_WEST), pos, renderer.blockAccess)) {
-            if (element.cuboid.from.x <= 0) {
+            if (element.cuboid.from().x() <= 0) {
                 --x;
             }
 
@@ -503,13 +503,13 @@ public class BlockModelRenderer {
                 renderer.aoBrightnessXYZNPP = block.getMixedBrightnessForBlock(renderer.blockAccess, x, y + 1, z + 1);
             }
 
-            if (element.cuboid.from.x <= 0) {
+            if (element.cuboid.from().x() <= 0) {
                 ++x;
             }
 
             i1 = mixedBrightness;
 
-            if (element.cuboid.from.x <= 0 || !renderer.blockAccess.getBlock(x - 1, y, z).isOpaqueCube()) {
+            if (element.cuboid.from().x() <= 0 || !renderer.blockAccess.getBlock(x - 1, y, z).isOpaqueCube()) {
                 i1 = block.getMixedBrightnessForBlock(renderer.blockAccess, x - 1, y, z);
             }
 
@@ -550,7 +550,7 @@ public class BlockModelRenderer {
         }
 
         if (shouldRenderFace(element.getFace(McConst.SIDE_EAST), pos, renderer.blockAccess)) {
-            if (element.cuboid.to.x >= 1.0) {
+            if (element.cuboid.to().x() >= 1.0) {
                 ++x;
             }
 
@@ -599,13 +599,13 @@ public class BlockModelRenderer {
                 renderer.aoBrightnessXYZPPP = block.getMixedBrightnessForBlock(renderer.blockAccess, x, y + 1, z + 1);
             }
 
-            if (element.cuboid.to.x >= 1.0) {
+            if (element.cuboid.to().x() >= 1.0) {
                 --x;
             }
 
             i1 = mixedBrightness;
 
-            if (element.cuboid.to.x >= 1.0 || !renderer.blockAccess.getBlock(x + 1, y, z).isOpaqueCube()) {
+            if (element.cuboid.to().x() >= 1.0 || !renderer.blockAccess.getBlock(x + 1, y, z).isOpaqueCube()) {
                 i1 = block.getMixedBrightnessForBlock(renderer.blockAccess, x + 1, y, z);
             }
 
@@ -655,7 +655,7 @@ public class BlockModelRenderer {
         Cuboid<WCS> cuboid = CoordinateConverter.BCStoWCS(element.cuboid, x, y, z);
         Face face = element.bottom;
         IIcon icon = face.texture.getIcon(texturesMap);
-        if(icon == null) return false;
+        if (icon == null) return false;
 
         double minU = icon.getInterpolatedU(face.minU);
         double maxU = icon.getInterpolatedU(face.maxU);
@@ -665,21 +665,21 @@ public class BlockModelRenderer {
         if (renderer.enableAO) {
             tessellator.setColorOpaque_F(renderer.colorRedTopLeft, renderer.colorGreenTopLeft, renderer.colorBlueTopLeft);
             tessellator.setBrightness(renderer.brightnessTopLeft);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.from.y, cuboid.to.z, minU, maxV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.from().y(), cuboid.to().z(), minU, maxV);
             tessellator.setColorOpaque_F(renderer.colorRedBottomLeft, renderer.colorGreenBottomLeft, renderer.colorBlueBottomLeft);
             tessellator.setBrightness(renderer.brightnessBottomLeft);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.from.y, cuboid.from.z, minU, minV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.from().y(), cuboid.from().z(), minU, minV);
             tessellator.setColorOpaque_F(renderer.colorRedBottomRight, renderer.colorGreenBottomRight, renderer.colorBlueBottomRight);
             tessellator.setBrightness(renderer.brightnessBottomRight);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.from.y, cuboid.from.z, maxU, minV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.from().y(), cuboid.from().z(), maxU, minV);
             tessellator.setColorOpaque_F(renderer.colorRedTopRight, renderer.colorGreenTopRight, renderer.colorBlueTopRight);
             tessellator.setBrightness(renderer.brightnessTopRight);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.from.y, cuboid.to.z, maxU, maxV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.from().y(), cuboid.to().z(), maxU, maxV);
         } else {
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.from.y, cuboid.to.z, minU, maxV);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.from.y, cuboid.from.z, minU, minV);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.from.y, cuboid.from.z, maxU, minV);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.from.y, cuboid.to.z, maxU, maxV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.from().y(), cuboid.to().z(), minU, maxV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.from().y(), cuboid.from().z(), minU, minV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.from().y(), cuboid.from().z(), maxU, minV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.from().y(), cuboid.to().z(), maxU, maxV);
         }
 
         return true;
@@ -691,7 +691,7 @@ public class BlockModelRenderer {
         Cuboid<WCS> cuboid = CoordinateConverter.BCStoWCS(element.cuboid, x, y, z);
         Face face = element.top;
         IIcon icon = face.texture.getIcon(texturesMap);
-        if(icon == null) return false;
+        if (icon == null) return false;
 
         double minU = icon.getInterpolatedU(face.minU);
         double maxU = icon.getInterpolatedU(face.maxU);
@@ -701,21 +701,21 @@ public class BlockModelRenderer {
         if (renderer.enableAO) {
             tessellator.setColorOpaque_F(renderer.colorRedTopLeft, renderer.colorGreenTopLeft, renderer.colorBlueTopLeft);
             tessellator.setBrightness(renderer.brightnessTopLeft);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.to.y, cuboid.to.z, maxU, maxV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.to().y(), cuboid.to().z(), maxU, maxV);
             tessellator.setColorOpaque_F(renderer.colorRedBottomLeft, renderer.colorGreenBottomLeft, renderer.colorBlueBottomLeft);
             tessellator.setBrightness(renderer.brightnessBottomLeft);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.to.y, cuboid.from.z, maxU, minV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.to().y(), cuboid.from().z(), maxU, minV);
             tessellator.setColorOpaque_F(renderer.colorRedBottomRight, renderer.colorGreenBottomRight, renderer.colorBlueBottomRight);
             tessellator.setBrightness(renderer.brightnessBottomRight);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.to.y, cuboid.from.z, minU, minV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.to().y(), cuboid.from().z(), minU, minV);
             tessellator.setColorOpaque_F(renderer.colorRedTopRight, renderer.colorGreenTopRight, renderer.colorBlueTopRight);
             tessellator.setBrightness(renderer.brightnessTopRight);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.to.y, cuboid.to.z, minU, maxV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.to().y(), cuboid.to().z(), minU, maxV);
         } else {
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.to.y, cuboid.to.z, maxU, maxV);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.to.y, cuboid.from.z, maxU, minV);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.to.y, cuboid.from.z, minU, minV);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.to.y, cuboid.to.z, minU, maxV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.to().y(), cuboid.to().z(), maxU, maxV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.to().y(), cuboid.from().z(), maxU, minV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.to().y(), cuboid.from().z(), minU, minV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.to().y(), cuboid.to().z(), minU, maxV);
         }
 
         return true;
@@ -727,7 +727,7 @@ public class BlockModelRenderer {
         Cuboid<WCS> cuboid = CoordinateConverter.BCStoWCS(element.cuboid, x, y, z);
         Face face = element.north;
         IIcon icon = face.texture.getIcon(texturesMap);
-        if(icon == null) return false;
+        if (icon == null) return false;
 
         double minU = icon.getInterpolatedU(face.minU);
         double maxU = icon.getInterpolatedU(face.maxU);
@@ -737,21 +737,21 @@ public class BlockModelRenderer {
         if (renderer.enableAO) {
             tessellator.setColorOpaque_F(renderer.colorRedTopLeft, renderer.colorGreenTopLeft, renderer.colorBlueTopLeft);
             tessellator.setBrightness(renderer.brightnessTopLeft);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.to.y, cuboid.from.z, maxU, minV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.to().y(), cuboid.from().z(), maxU, minV);
             tessellator.setColorOpaque_F(renderer.colorRedBottomLeft, renderer.colorGreenBottomLeft, renderer.colorBlueBottomLeft);
             tessellator.setBrightness(renderer.brightnessBottomLeft);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.to.y, cuboid.from.z, minU, minV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.to().y(), cuboid.from().z(), minU, minV);
             tessellator.setColorOpaque_F(renderer.colorRedBottomRight, renderer.colorGreenBottomRight, renderer.colorBlueBottomRight);
             tessellator.setBrightness(renderer.brightnessBottomRight);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.from.y, cuboid.from.z, minU, maxV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.from().y(), cuboid.from().z(), minU, maxV);
             tessellator.setColorOpaque_F(renderer.colorRedTopRight, renderer.colorGreenTopRight, renderer.colorBlueTopRight);
             tessellator.setBrightness(renderer.brightnessTopRight);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.from.y, cuboid.from.z, maxU, maxV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.from().y(), cuboid.from().z(), maxU, maxV);
         } else {
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.to.y, cuboid.from.z, maxU, minV);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.to.y, cuboid.from.z, minU, minV);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.from.y, cuboid.from.z, minU, maxV);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.from.y, cuboid.from.z, maxU, maxV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.to().y(), cuboid.from().z(), maxU, minV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.to().y(), cuboid.from().z(), minU, minV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.from().y(), cuboid.from().z(), minU, maxV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.from().y(), cuboid.from().z(), maxU, maxV);
         }
 
         return true;
@@ -763,7 +763,7 @@ public class BlockModelRenderer {
         Cuboid<WCS> cuboid = CoordinateConverter.BCStoWCS(element.cuboid, x, y, z);
         Face face = element.south;
         IIcon icon = face.texture.getIcon(texturesMap);
-        if(icon == null) return false;
+        if (icon == null) return false;
 
         double minU = icon.getInterpolatedU(face.minU);
         double maxU = icon.getInterpolatedU(face.maxU);
@@ -773,21 +773,21 @@ public class BlockModelRenderer {
         if (renderer.enableAO) {
             tessellator.setColorOpaque_F(renderer.colorRedTopLeft, renderer.colorGreenTopLeft, renderer.colorBlueTopLeft);
             tessellator.setBrightness(renderer.brightnessTopLeft);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.to.y, cuboid.to.z, minU, minV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.to().y(), cuboid.to().z(), minU, minV);
             tessellator.setColorOpaque_F(renderer.colorRedBottomLeft, renderer.colorGreenBottomLeft, renderer.colorBlueBottomLeft);
             tessellator.setBrightness(renderer.brightnessBottomLeft);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.from.y, cuboid.to.z, minU, maxV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.from().y(), cuboid.to().z(), minU, maxV);
             tessellator.setColorOpaque_F(renderer.colorRedBottomRight, renderer.colorGreenBottomRight, renderer.colorBlueBottomRight);
             tessellator.setBrightness(renderer.brightnessBottomRight);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.from.y, cuboid.to.z, maxU, maxV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.from().y(), cuboid.to().z(), maxU, maxV);
             tessellator.setColorOpaque_F(renderer.colorRedTopRight, renderer.colorGreenTopRight, renderer.colorBlueTopRight);
             tessellator.setBrightness(renderer.brightnessTopRight);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.to.y, cuboid.to.z, maxU, minV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.to().y(), cuboid.to().z(), maxU, minV);
         } else {
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.to.y, cuboid.to.z, minU, minV);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.from.y, cuboid.to.z, minU, maxV);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.from.y, cuboid.to.z, maxU, maxV);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.to.y, cuboid.to.z, maxU, minV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.to().y(), cuboid.to().z(), minU, minV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.from().y(), cuboid.to().z(), minU, maxV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.from().y(), cuboid.to().z(), maxU, maxV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.to().y(), cuboid.to().z(), maxU, minV);
         }
 
         return true;
@@ -799,7 +799,7 @@ public class BlockModelRenderer {
         Cuboid<WCS> cuboid = CoordinateConverter.BCStoWCS(element.cuboid, x, y, z);
         Face face = element.west;
         IIcon icon = face.texture.getIcon(texturesMap);
-        if(icon == null) return false;
+        if (icon == null) return false;
 
         double minU = icon.getInterpolatedU(face.minU);
         double maxU = icon.getInterpolatedU(face.maxU);
@@ -809,21 +809,21 @@ public class BlockModelRenderer {
         if (renderer.enableAO) {
             tessellator.setColorOpaque_F(renderer.colorRedTopLeft, renderer.colorGreenTopLeft, renderer.colorBlueTopLeft);
             tessellator.setBrightness(renderer.brightnessTopLeft);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.to.y, cuboid.to.z, maxU, minV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.to().y(), cuboid.to().z(), maxU, minV);
             tessellator.setColorOpaque_F(renderer.colorRedBottomLeft, renderer.colorGreenBottomLeft, renderer.colorBlueBottomLeft);
             tessellator.setBrightness(renderer.brightnessBottomLeft);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.to.y, cuboid.from.z, minU, minV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.to().y(), cuboid.from().z(), minU, minV);
             tessellator.setColorOpaque_F(renderer.colorRedBottomRight, renderer.colorGreenBottomRight, renderer.colorBlueBottomRight);
             tessellator.setBrightness(renderer.brightnessBottomRight);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.from.y, cuboid.from.z, minU, maxV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.from().y(), cuboid.from().z(), minU, maxV);
             tessellator.setColorOpaque_F(renderer.colorRedTopRight, renderer.colorGreenTopRight, renderer.colorBlueTopRight);
             tessellator.setBrightness(renderer.brightnessTopRight);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.from.y, cuboid.to.z, maxU, maxV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.from().y(), cuboid.to().z(), maxU, maxV);
         } else {
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.to.y, cuboid.to.z, maxU, minV);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.to.y, cuboid.from.z, minU, minV);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.from.y, cuboid.from.z, minU, maxV);
-            tessellator.addVertexWithUV(cuboid.from.x, cuboid.from.y, cuboid.to.z, maxU, maxV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.to().y(), cuboid.to().z(), maxU, minV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.to().y(), cuboid.from().z(), minU, minV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.from().y(), cuboid.from().z(), minU, maxV);
+            tessellator.addVertexWithUV(cuboid.from().x(), cuboid.from().y(), cuboid.to().z(), maxU, maxV);
         }
 
         return true;
@@ -835,7 +835,7 @@ public class BlockModelRenderer {
         Cuboid<WCS> cuboid = CoordinateConverter.BCStoWCS(element.cuboid, x, y, z);
         Face face = element.east;
         IIcon icon = face.texture.getIcon(texturesMap);
-        if(icon == null) return false;
+        if (icon == null) return false;
 
         double minU = icon.getInterpolatedU(face.minU);
         double maxU = icon.getInterpolatedU(face.maxU);
@@ -845,21 +845,21 @@ public class BlockModelRenderer {
         if (renderer.enableAO) {
             tessellator.setColorOpaque_F(renderer.colorRedTopLeft, renderer.colorGreenTopLeft, renderer.colorBlueTopLeft);
             tessellator.setBrightness(renderer.brightnessTopLeft);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.from.y, cuboid.to.z, minU, maxV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.from().y(), cuboid.to().z(), minU, maxV);
             tessellator.setColorOpaque_F(renderer.colorRedBottomLeft, renderer.colorGreenBottomLeft, renderer.colorBlueBottomLeft);
             tessellator.setBrightness(renderer.brightnessBottomLeft);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.from.y, cuboid.from.z, maxU, maxV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.from().y(), cuboid.from().z(), maxU, maxV);
             tessellator.setColorOpaque_F(renderer.colorRedBottomRight, renderer.colorGreenBottomRight, renderer.colorBlueBottomRight);
             tessellator.setBrightness(renderer.brightnessBottomRight);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.to.y, cuboid.from.z, maxU, minV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.to().y(), cuboid.from().z(), maxU, minV);
             tessellator.setColorOpaque_F(renderer.colorRedTopRight, renderer.colorGreenTopRight, renderer.colorBlueTopRight);
             tessellator.setBrightness(renderer.brightnessTopRight);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.to.y, cuboid.to.z, minU, minV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.to().y(), cuboid.to().z(), minU, minV);
         } else {
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.from.y, cuboid.to.z, minU, maxV);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.from.y, cuboid.from.z, maxU, maxV);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.to.y, cuboid.from.z, maxU, minV);
-            tessellator.addVertexWithUV(cuboid.to.x, cuboid.to.y, cuboid.to.z, minU, minV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.from().y(), cuboid.to().z(), minU, maxV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.from().y(), cuboid.from().z(), maxU, maxV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.to().y(), cuboid.from().z(), maxU, minV);
+            tessellator.addVertexWithUV(cuboid.to().x(), cuboid.to().y(), cuboid.to().z(), minU, minV);
         }
 
         return true;

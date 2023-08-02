@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  */
 public interface IBlockModel {
     /**
-     * Add the AABBs representing the hit decision to the list.
+     * List the AABBs for the collision detection
      * <p>
      * This method is supposed to be called from Block#addCollisionBoxesToList().
      * In that case, it should not be slow, as it will be called every tick
@@ -29,6 +29,9 @@ public interface IBlockModel {
      */
     void addCollisionBoxesToList(int x, int y, int z, AxisAlignedBB mask, @SuppressWarnings("rawtypes") List list);
 
+    /**
+     * all Cuboids that make up this model
+     */
     Stream<Cuboid<BCS>> getCuboids();
 
     /**
